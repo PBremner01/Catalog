@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="row divider blue">
+    <div class="col-md-12"></div>
+</div><div class="row divider blue">
+    <div class="col-md-12"></div>
+    <a href="{{url_for('showCatalogs')}}">
+        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>Show All Catalogs
+    </a>
+</div>	<div class="row divider blue">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner main">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			<h1></h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul>
+						{% for message in messages %}
+							 <li> <strong> {{ message }} </strong> </li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+		</div>
+	</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<h1>Category : {{catalog.name}}</h1>
+			<div class="col-md-4">
+				<h2>--Attributes--</h2>
+					{% for i in items %}
+						<div class="menu-item">
+							<p>{{i.title}} - {{i.description}}</p>
+						</div>
+					{% endfor %}
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+{% endblock %}

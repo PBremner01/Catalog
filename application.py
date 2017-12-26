@@ -227,6 +227,7 @@ def gdisconnect():
 
 # JSON APIs to view  catalog Information
 @app.route('/catalogs/<int:catalog_id>/item/JSON')
+@login_required
 def catalogMenuJSON(catalog_id):
     catalog = session.query(Catalog).filter_by(id=catalog_id).one()
     item = session.query(CItem).filter_by(catalog_id=catalog_id).all()
@@ -234,12 +235,14 @@ def catalogMenuJSON(catalog_id):
 
 
 @app.route('/catalogs/<int:catalog_id>/item/<int:item_id>/JSON')
+@login_required
 def itemItemJSON(catalog_id, item_id):
     CItem = session.query(CItem).filter_by(id=item_id).one()
     return jsonify(CItem=CItem.serialize)
 
 
 @app.route('/catalogs/JSON')
+@login_required
 def catalogsJSON():
     catalogs = session.query(Catalog).all()
     return jsonify(catalogs=[r.serialize for r in catalogs])
@@ -266,7 +269,8 @@ def showItem(catalog_id):
 #    print login_session['user_id']
 #    print catalog1.user_id
 #    print creator.id
-    if 'username' not in login_session or catalog1.user_id != login_session['user_id']:
+    if 'username' not in login_session or
+    catalog1.user_id != login_session['user_id']:
             return render_template('publicitem.html', items=item,
                                    catalog=catalog1, creator=creator)
     else:
@@ -276,6 +280,7 @@ def showItem(catalog_id):
 
 # Create a new  catalog
 @app.route('/catalog/new/', methods=['GET', 'POST'])
+@login_required
 def newCatalog():
     if 'username' not in login_session:
         return redirect('/login')
@@ -294,6 +299,7 @@ def newCatalog():
 
 
 @app.route('/catalogs/<int:catalog_id>/edit/', methods=['GET', 'POST'])
+@login_required
 def editCatalog(catalog_id):
     editedCatalog = session.query(
         Catalog).filter_by(id=catalog_id).one()
@@ -315,6 +321,7 @@ def editCatalog(catalog_id):
 
 # Delete a  catalog
 @app.route('/catalogs/<int:catalog_id>/delete/', methods=['GET', 'POST'])
+@login_required
 def deleteCatalog(catalog_id):
     catalogToDelete = session.query(
         Catalog).filter_by(id=catalog_id).one()
@@ -335,6 +342,7 @@ def deleteCatalog(catalog_id):
 
 # Create a new item item
 @app.route('/catalogs/<int:catalog_id>/item/new/', methods=['GET', 'POST'])
+@login_required
 def newItem(catalog_id):
     catalog = session.query(Catalog).filter_by(id=catalog_id).one()
     if request.method == 'POST':
@@ -352,6 +360,7 @@ def newItem(catalog_id):
 # Edit a Catalog item
 @app.route('/catalogs/<int:catalog_id>/item/<int:item_id>/edit',
            methods=['GET', 'POST'])
+@login_required
 def editItem(catalog_id, item_id):
     if 'username' not in login_session:
         return redirect('/login')
@@ -394,6 +403,7 @@ def showItemDetail(catalog_id, item_id):
 # Delete a Catalog item
 @app.route('/catalogs/<int:catalog_id>/item/<int:item_id>/delete',
            methods=['GET', 'POST'])
+@login_required
 def deleteItem(catalog_id, item_id):
     if 'username' not in login_session:
         return redirect('/login')

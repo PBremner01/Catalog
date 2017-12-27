@@ -269,7 +269,7 @@ def showItem(catalog_id):
 #    print login_session['user_id']
 #    print catalog1.user_id
 #    print creator.id
-    if 'username' not in login_session or
+    if 'username' not in login_session or \
     catalog1.user_id != login_session['user_id']:
             return render_template('publicitem.html', items=item,
                                    catalog=catalog1, creator=creator)
